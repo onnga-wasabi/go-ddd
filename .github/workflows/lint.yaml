@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install golangci-lint
         run: > # https://golangci-lint.run/usage/install/#other-ci
-          bash -c "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.54.2"
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.54.2
           echo "./bin" >> $GITHUB_PATH
       - name: Lint Check
         run: make golangci-lint
