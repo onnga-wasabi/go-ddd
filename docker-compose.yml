@@ -1,0 +1,14 @@
+version: "3"
+services:
+  db:
+    image: postgres:13
+    container_name: postgres
+    ports:
+      - 2345:5432
+    volumes:
+      - go-ddd-db-store:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass
+volumes:
+  go-ddd-db-store:
+

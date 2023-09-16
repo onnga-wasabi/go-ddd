@@ -12,17 +12,13 @@ jobs:
         with:
           go-version: '1.20'
       - name: Format Check
-        run: if [ "$(gofmt -s -l ./sample/... | wc -l)" -gt 0 ]; then exit 1; fi
+        run: make fmt-check
   check-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '1.20'
+      - name: Install golangci-lint
+        run: bash -c "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2"
       - name: Lint Check
-        uses: golangci/golangci-lint-action@v3
-        with:
-          # Optional: version of golangci-lint to use in form of v1.2 or v1.2.3 or `latest` to use the latest version
-          version: latest
+        run: make golangci-lint
 
