@@ -13,7 +13,7 @@ fmt-check:
 .PHONY: golangci-lint
 golangci-lint:
 	@echo "Checking Lint..."
-	@ golangci-lint run ./sample/...
+	@golangci-lint run ./sample/...
 
 .PHONY: lint
 lint: fmt-check golangci-lint
