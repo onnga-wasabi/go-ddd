@@ -9,7 +9,7 @@ import (
 // Custom validation
 func TestNewUUID(t *testing.T) {
 	t.Run("", func(t *testing.T) {
-        got := NewUUID()
-        assert.Len(t, got, 36)
+		got := NewUUID()
+		assert.Len(t, got, 36)
 	})
 }
