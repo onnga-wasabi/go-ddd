@@ -32,6 +32,11 @@ migrate-up:
 migrate-down:
 	migrate -path sample/infrastructure/migrations -database postgres://postgres:pass@127.0.0.1:2345/postgres?sslmode=disable down 1
 
+.PHONY: install
+install:
+	go install github.com/vektra/mockery/v2@v2.33.3
+	go install github.com/cweill/gotests/gotests@v1.6.0
+
 mocks:
 	@echo "Creating Mocks..."
 	@mockery
