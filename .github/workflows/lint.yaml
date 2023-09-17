@@ -1,4 +1,4 @@
-name: format & lint check
+name: Format & Lint check
 on:
   push:
     branches:
@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.20'
-      - name: Format Check
+      - name: Format check
         run: make fmt-check
   check-lint:
     runs-on: ubuntu-latest
@@ -23,6 +23,6 @@ jobs:
       - name: Install golangci-lint
         run: > # https://golangci-lint.run/usage/install/#other-ci
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
-      - name: Lint Check
+      - name: Lint check
         run: make golangci-lint
 
