@@ -11,16 +11,33 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.20'
+      - uses: actions/cache@v3
+        id: go_env_cache
+        with:
+          path: |
+            ~/go/pkg
+            ~/go/bin
+            ~/.cache/go-build
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
       - name: Install
+        if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
   check-format:
     needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/cache@v3
+        id: go_env_cache
         with:
-          go-version: '1.20'
+          path: |
+            ~/go/pkg
+            ~/go/bin
+            ~/.cache/go-build
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+      - name: Install
+        if: steps.go_env_cache.outputs.cache-hit != 'true'
+        run: make install
       - name: Format check
         run: make fmt-check
   check-lint:
@@ -28,9 +45,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/cache@v3
+        id: go_env_cache
         with:
-          go-version: '1.20'
+          path: |
+            ~/go/pkg
+            ~/go/bin
+            ~/.cache/go-build
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+      - name: Install
+        if: steps.go_env_cache.outputs.cache-hit != 'true'
+        run: make install
       - name: Lint check
         run: make golangci-lint
   check-auto-gen:
@@ -38,9 +63,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/cache@v3
+        id: go_env_cache
         with:
-          go-version: '1.20'
+          path: |
+            ~/go/pkg
+            ~/go/bin
+            ~/.cache/go-build
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+      - name: Install
+        if: steps.go_env_cache.outputs.cache-hit != 'true'
+        run: make install
       - name: Generation
         run: make tests
       - name: Check diff
@@ -53,8 +86,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/cache@v3
+        id: go_env_cache
         with:
-          go-version: '1.20'
+          path: |
+            ~/go/pkg
+            ~/go/bin
+            ~/.cache/go-build
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+      - name: Install
+        if: steps.go_env_cache.outputs.cache-hit != 'true'
+        run: make install
       - name: Run test
-        run: make run-test
+        run: make run-te
