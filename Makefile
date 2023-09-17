@@ -1,18 +1,18 @@
 .PHONY: fmt
 fmt:
-	@echo "Apply Format..."
+	@echo "Applying format..."
 	gofmt -w ./sample
 
 .PHONY: fmt-check
 fmt-check:
-	@echo "Checking Format..."
+	@echo "Checking format..."
 	@if [ $(shell gofmt -s -l ./sample | wc -l) -gt 0 ]; then\
 		exit 1;\
 	fi
 
 .PHONY: golangci-lint
 golangci-lint:
-	@echo "Checking Lint..."
+	@echo "Checking lint..."
 	@golangci-lint run ./sample/...
 
 .PHONY: lint
@@ -34,15 +34,18 @@ migrate-down:
 
 .PHONY: install
 install:
-	go install github.com/vektra/mockery/v2@v2.33.3
-	go install github.com/cweill/gotests/gotests@v1.6.0
+	@echo "Installing commands..."
+	@# refer to https://golangci-lint.run/usage/install/
+	@bash -c "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin v1.54.2 > /dev/null 2>&1"
+	@go install github.com/vektra/mockery/v2@v2.33.3
+	@go install github.com/cweill/gotests/gotests@v1.6.0
 
 mocks:
-	@echo "Creating Mocks..."
+	@echo "Generating mocks..."
 	@mockery
 
 tests: mocks
-	@echo "Generating Tests..."
+	@echo "Generating tests..."
 	gotests -all -w -template_dir gotests_template **/*.go
 
 .PHONY: run-test
