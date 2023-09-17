@@ -1,0 +1,53 @@
+name: Workflow for push to main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+      - name: Format check
+        run: make fmt-check
+  check-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+      - name: Install golangci-lint
+        run: > # https://golangci-lint.run/usage/install/#other-ci
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+      - name: Lint check
+        run: make golangci-lint
+  check-auto-gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+      - name: Install commands
+        run: make install
+      - name: Generation
+        run: make tests
+      - name: Check diff
+        run: git add . && git diff --cached --quiet
+      - name: Show diff if failure
+        if: ${{ failure() }}
+        run: git diff --cached
+  test:
+    needs: [check-format, check-lint, check-auto-gen]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+      - name: Run test
+        run: make run-test
