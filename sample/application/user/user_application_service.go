@@ -1,21 +1,31 @@
 package user
 
-type UserID string
+import (
+	"github.com/onnga-wasabi/go-ddd/sample/application/user/register"
+	"github.com/onnga-wasabi/go-ddd/sample/domain/model/user"
+)
 
-type User interface {
-	Name() string
+type UserApplicationService interface {
+	Register(register.UserRegisterCommand) register.UserRegisterResult
 }
 
-type user struct {
-	ID UserID
+type userApplicationService struct {
+	userRepository user.UserRepository
 }
 
-func NewUser() User {
-	return user{
-		ID: UserID("id"),
+func NewUserApplicationService(
+	userRepository user.UserRepository,
+) UserApplicationService {
+	return userApplicationService{
+		userRepository: userRepository,
 	}
 }
 
-func (u user) Name() string {
-	return "Name"
+func (s userApplicationService) Register(command register.UserRegisterCommand) register.UserRegisterResult {
+	u := user.NewUser(user.UserID("id"), command.Name)
+	err := s.userRepository.Save(u)
+	if err != nil {
+		return register.UserRegisterResult{}
+	}
+	return register.UserRegisterResult{CreatedUserID: u.ID()}
 }

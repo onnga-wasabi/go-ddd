@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 	"os"
-	"sample/sample/cli/command"
+
+	"github.com/onnga-wasabi/go-ddd/sample/cli/command"
 
 	"github.com/urfave/cli/v2"
 )
