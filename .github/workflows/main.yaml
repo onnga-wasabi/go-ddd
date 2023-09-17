@@ -18,7 +18,7 @@ jobs:
             ~/go/pkg
             ~/go/bin
             ~/.cache/go-build
-          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles('Makefile') }}
       - name: Install
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
@@ -34,7 +34,7 @@ jobs:
             ~/go/pkg
             ~/go/bin
             ~/.cache/go-build
-          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles('Makefile') }}
       - name: Install
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
@@ -52,7 +52,7 @@ jobs:
             ~/go/pkg
             ~/go/bin
             ~/.cache/go-build
-          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles('Makefile') }}
       - name: Install
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
@@ -70,7 +70,7 @@ jobs:
             ~/go/pkg
             ~/go/bin
             ~/.cache/go-build
-          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles('Makefile') }}
       - name: Install
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
@@ -93,7 +93,7 @@ jobs:
             ~/go/pkg
             ~/go/bin
             ~/.cache/go-build
-          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles("Makefile") }}
+          key: go-env-${{ hashFiles('**/go.sum') }}-${{ hashFiles('Makefile') }}
       - name: Install
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
