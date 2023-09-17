@@ -110,4 +110,4 @@ jobs:
         if: steps.go_env_cache.outputs.cache-hit != 'true'
         run: make install
       - name: Run test
-        run: make run-te
+        run: make run-test

@@ -3,6 +3,7 @@ module github.com/onnga-wasabi/go-ddd
 go 1.20
 
 require (
+	github.com/google/uuid v1.3.1
 	github.com/stretchr/testify v1.8.4
 	github.com/urfave/cli/v2 v2.25.7
 )

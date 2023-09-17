@@ -44,10 +44,12 @@ mocks:
 	@echo "Generating mocks..."
 	@mockery
 
+TEST_SOURCE_FILES := $(filter-out %_test.go %_mock.go %_xo.go, $(filter %go, $(shell find . -type f)))
 tests: mocks
 	@echo "Generating tests..."
-	gotests -all -w -template_dir gotests_template **/*.go
+	@gotests -all -w -template_dir gotests_template $(TEST_SOURCE_FILES)
 
 .PHONY: run-test
 run-test:
-	go test ./sample/...
+	@echo "Running tests..."
+	@go test ./...
