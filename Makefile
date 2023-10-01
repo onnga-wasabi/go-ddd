@@ -40,12 +40,21 @@ install:
 	@go install github.com/vektra/mockery/v2@v2.33.3
 	@go install github.com/cweill/gotests/gotests@v1.6.0
 
-mocks:
+
+LIBS := sample
+go.mod: $(LIBS:%=%/*.go)
+	@go mod tidy
+
+DB_URI := "postgres://postgres:pass@127.0.0.1:2345/postgres?sslmode=disable"
+data_model:
+	xo schema $(DB_URI) -o sample/infrastructure/xo/persistence/data_model
+
+mocks: go.mod
 	@echo "Generating mocks..."
 	@mockery
 
 TEST_SOURCE_FILES := $(filter-out %_test.go %_mock.go %_xo.go, $(filter %go, $(shell find . -type f)))
-tests: mocks
+tests: mocks go.mod
 	@echo "Generating tests..."
 	@gotests -all -w -template_dir gotests_template $(TEST_SOURCE_FILES)
 
